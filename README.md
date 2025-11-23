@@ -1,1 +1,1 @@
-This is a an experiment with colloging a photo with animated rectangle overlays.
+An experiment overlaying animated rectangular shapes over a photo using code.
