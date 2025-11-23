@@ -21,15 +21,9 @@ function preload() {
 }
 
 function setup() {
-  // Make canvas responsive but maintain 2:1 ratio
+  // Use the actual window width available in the iframe
   let w = windowWidth;
-  let h = w / 2;
-  
-  // Set max dimensions
-  if (w > 1800) {
-    w = 1800;
-    h = 900;
-  }
+  let h = w / 2; // Maintain 2:1 ratio
   
   createCanvas(w, h);
   noStroke();
@@ -40,7 +34,7 @@ function setup() {
   cellWidth = canvasWidth / cols;
   cellHeight = canvasHeight / rows;
   
-  // Recalculate shape dimensions based on actual canvas size
+  // Shape dimensions as percentages of actual canvas
   shapeOneW = canvasWidth * 0.125;
   shapeOneH = canvasHeight * 0.50;
   shapeTwoW = canvasWidth * 0.125;
@@ -48,7 +42,7 @@ function setup() {
   shapeThreeW = canvasWidth * 0.0625;
   shapeThreeH = canvasHeight * 0.25;
   
-  // Clear and recreate cells array
+  // Create cells
   cells = [];
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
