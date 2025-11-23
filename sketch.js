@@ -21,24 +21,35 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(canvasWidth, canvasHeight);
+  // Make canvas responsive but maintain 2:1 ratio
+  let w = windowWidth;
+  let h = w / 2;
+  
+  // Set max dimensions
+  if (w > 1800) {
+    w = 1800;
+    h = 900;
+  }
+  
+  createCanvas(w, h);
   noStroke();
+  
+  canvasWidth = w;
+  canvasHeight = h;
   
   cellWidth = canvasWidth / cols;
   cellHeight = canvasHeight / rows;
   
+  // Recalculate shape dimensions based on actual canvas size
+  shapeOneW = canvasWidth * 0.125;
+  shapeOneH = canvasHeight * 0.50;
+  shapeTwoW = canvasWidth * 0.125;
+  shapeTwoH = canvasHeight * 0.25;
+  shapeThreeW = canvasWidth * 0.0625;
+  shapeThreeH = canvasHeight * 0.25;
   
-  
-  
-  // Define shape dimensions as percentages of canvas
-  shapeOneW = canvasWidth * 0.125;    // 12.5%W
-  shapeOneH = canvasHeight * 0.50;    // 50%H
-  shapeTwoW = canvasWidth * 0.125;    // 12.5%W
-  shapeTwoH = canvasHeight * 0.25;    // 25%H
-  shapeThreeW = canvasWidth * 0.0625; // 6.25%W
-  shapeThreeH = canvasHeight * 0.25;  // 25%H
-  
-  // Create a cell for each position in the grid
+  // Clear and recreate cells array
+  cells = [];
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       let x = i * cellWidth;
