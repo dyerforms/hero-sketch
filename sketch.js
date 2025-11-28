@@ -21,9 +21,9 @@ function preload() {
 }
 
 function setup() {
-  // Use the actual window width available in the iframe
+  // Make canvas responsive
   let w = windowWidth;
-  let h = w / 2; // Maintain 2:1 ratio
+  let h = w / 2; // Maintains 2:1 ratio
   
   createCanvas(w, h);
   noStroke();
@@ -34,7 +34,7 @@ function setup() {
   cellWidth = canvasWidth / cols;
   cellHeight = canvasHeight / rows;
   
-  // Shape dimensions as percentages of actual canvas
+  // Shape dimensions
   shapeOneW = canvasWidth * 0.125;
   shapeOneH = canvasHeight * 0.50;
   shapeTwoW = canvasWidth * 0.125;
@@ -74,6 +74,35 @@ function mousePressed() {
   for (let cell of cells) {
     if (random() < 0.3) { // 30% chance each cell flips
       cell.flip();
+    }
+  }
+}
+
+function windowResized() {
+  let w = windowWidth;
+  let h = w / 2;
+  
+  resizeCanvas(w, h);
+  
+  canvasWidth = w;
+  canvasHeight = h;
+  cellWidth = canvasWidth / cols;
+  cellHeight = canvasHeight / rows;
+  
+  shapeOneW = canvasWidth * 0.125;
+  shapeOneH = canvasHeight * 0.50;
+  shapeTwoW = canvasWidth * 0.125;
+  shapeTwoH = canvasHeight * 0.25;
+  shapeThreeW = canvasWidth * 0.0625;
+  shapeThreeH = canvasHeight * 0.25;
+  
+  // Recreate cells with new dimensions
+  cells = [];
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      let x = i * cellWidth;
+      let y = j * cellHeight;
+      cells.push(new Cell(x, y, cellWidth, cellHeight));
     }
   }
 }
