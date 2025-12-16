@@ -1,13 +1,13 @@
 let cells = [];
-let canvasWidth = 1800;
-let canvasHeight = 900;
+let canvasWidth = 824;
+let canvasHeight = 549;
 let cols = 8;
 let rows = 3;
 let cellWidth, cellHeight;
 let color1 = [255, 214, 51]; /*YELLOW*/
 let color2 = [2, 0, 233]; /*BLUE*/
 let color3 = [239, 35, 170]; /*PINK*/
-/*let color3 = [239, 35, 170];*/
+/*let color4 = [239, 35, 170];*/
 let myColors = [color1, color2, color3];
 
 // Shape dimensions as percentages
@@ -17,13 +17,13 @@ let shapeThreeW, shapeThreeH;
 let img;
 
 function preload() {
-  img = loadImage('https://freight.cargo.site/w/3500/q/75/i/J2662719359141118263835712762339/HeroPlant.jpg');
+  img = loadImage('https://freight.cargo.site/w/1648/q/75/i/K2686426179411618730645748134371/PortfolioHero_3.jpg');
 }
 
 function setup() {
   // Make canvas responsive
   let w = windowWidth;
-  let h = w / 2; // Maintains 2:1 ratio
+  let h = w * (2/3); // Maintains 2:1 ratio
   
   createCanvas(w, h);
   noStroke();
@@ -80,7 +80,7 @@ function mousePressed() {
 
 function windowResized() {
   let w = windowWidth;
-  let h = w / 2;
+  let h = w * (2/3);;
   
   resizeCanvas(w, h);
   
@@ -125,7 +125,7 @@ class Cell {
     
     // Timer for random changes
     this.frameCounter = 0;
-    this.changeInterval = int(random(120, 300));
+    this.changeInterval = int(random(90, 300));
   }
   
   update() {
@@ -140,7 +140,7 @@ class Cell {
       }
       
       this.frameCounter = 0;
-      this.changeInterval = int(random(120, 300));
+      this.changeInterval = int(random(60, 300));
     }
   }
   
