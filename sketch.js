@@ -4,26 +4,35 @@ let canvasHeight = 549;
 let cols = 8;
 let rows = 3;
 let cellWidth, cellHeight;
-let color1 = [255, 214, 51]; /*YELLOW*/
-let color2 = [2, 0, 233]; /*BLUE*/
+let color1 = [237, 238, 36]; /*red*/
+let color2 = [219, 217, 100]; /*lightblue*/
 let color3 = [239, 35, 170]; /*PINK*/
-/*let color4 = [239, 35, 170];*/
-let myColors = [color1, color2, color3];
+let color4 = [246, 243, 235]; /*WHITE*/
+let color5 = [12, 11, 20]; /*BLACK*/
+let color6 = [2, 0, 233]; /*BLUE*/
+let myColors = [color6, color1, color3];
 
 // Shape dimensions as percentages
 let shapeOneW, shapeOneH;
 let shapeTwoW, shapeTwoH;
 let shapeThreeW, shapeThreeH;
-let img;
+
+// Image array and current index
+let images = [];
+let currentImageIndex = 0;
+let imageChangeInterval = 180; // Change every 3 seconds (at 60fps)
+let imageFrameCounter = 0;
 
 function preload() {
-  img = loadImage('https://freight.cargo.site/w/1648/q/75/i/K2686426179411618730645748134371/PortfolioHero_3.jpg');
+  // Load 3 images into the array
+  images.push(loadImage('https://freight.cargo.site/w/1648/q/75/i/K2686426179411618730645748134371/PortfolioHero_3.jpg'));
+  images.push(loadImage('https://freight.cargo.site/w/1648/q/75/i/O2686447944300676186850380165603/PortfolioHero_B.jpg'));
+  images.push(loadImage('https://freight.cargo.site/w/1648/q/75/i/C2752117856838092655226725282275/PortfolioHero_D.jpg'));
 }
 
 function setup() {
-  // Make canvas responsive
   let w = windowWidth;
-  let h = w * (2/3); // Maintains 2:1 ratio
+  let h = w * (2/3);
   
   createCanvas(w, h);
   noStroke();
@@ -34,15 +43,13 @@ function setup() {
   cellWidth = canvasWidth / cols;
   cellHeight = canvasHeight / rows;
   
-  // Shape dimensions
   shapeOneW = canvasWidth * 0.125;
-  shapeOneH = canvasHeight * 0.50;
+  shapeOneH = canvasHeight * 0.25;
   shapeTwoW = canvasWidth * 0.125;
-  shapeTwoH = canvasHeight * 0.25;
-  shapeThreeW = canvasWidth * 0.0625;
-  shapeThreeH = canvasHeight * 0.25;
+  shapeTwoH = canvasHeight * 0.125;
+  shapeThreeW = canvasWidth * 0.5;
+  shapeThreeH = canvasHeight * 0.5;
   
-  // Create cells
   cells = [];
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
@@ -55,9 +62,17 @@ function setup() {
 
 function draw() {
   background("#f1f5f2");
-  image(img, 0, 0, canvasWidth, canvasHeight);
   
-  // Apply exclusion blend mode for the shapes
+  // Draw the current image
+  image(images[currentImageIndex], 0, 0, canvasWidth, canvasHeight);
+  
+  // Auto-rotate images (optional - remove if you don't want auto-rotation)
+  imageFrameCounter++;
+  if (imageFrameCounter >= imageChangeInterval) {
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    imageFrameCounter = 0;
+  }
+  
   blendMode(EXCLUSION);
   
   for (let cell of cells) {
@@ -65,18 +80,25 @@ function draw() {
     cell.display();
   }
   
-  // Reset blend mode back to normal
-  blendMode(BLEND);
+ blendMode(BLEND);
 }
 
 function mousePressed() {
+  // Rotate to next image on click
+  currentImageIndex = (currentImageIndex + 1) % images.length;
+  
   // Randomly flip some cells
   for (let cell of cells) {
-    if (random() < 0.3) { // 30% chance each cell flips
+    if (random() < 0.3) {
       cell.flip();
     }
   }
 }
+
+// ... rest of your code stays the same
+
+
+
 
 function windowResized() {
   let w = windowWidth;
@@ -90,11 +112,11 @@ function windowResized() {
   cellHeight = canvasHeight / rows;
   
   shapeOneW = canvasWidth * 0.125;
-  shapeOneH = canvasHeight * 0.50;
+  shapeOneH = canvasHeight * 0.25;
   shapeTwoW = canvasWidth * 0.125;
-  shapeTwoH = canvasHeight * 0.25;
-  shapeThreeW = canvasWidth * 0.0625;
-  shapeThreeH = canvasHeight * 0.25;
+  shapeTwoH = canvasHeight * 0.125;
+  shapeThreeW = canvasWidth * 0.5;
+  shapeThreeH = canvasHeight * 0.5;
   
   // Recreate cells with new dimensions
   cells = [];
