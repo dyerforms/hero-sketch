@@ -21,7 +21,8 @@ function preload() {
 
 function setup() {
   let w = windowWidth;
-  let h = w * (2/3);
+  //let h = w * (2/3);
+  let h = w * 0.613;
   
   createCanvas(w, h);
   noStroke();
@@ -77,7 +78,8 @@ function mousePressed() {
 
 function windowResized() {
   let w = windowWidth;
-  let h = w * (2/3);
+ // let h = w * (2/3);
+  let h = w * 0.613;
   
   resizeCanvas(w, h);
   
