@@ -7,9 +7,9 @@ let color2 = [12, 11, 20]; /*BLACK*/
 let color3 = [246, 243, 235]; /*WHITE*/
 let myColors = [color1, color2, color3];
 
-// Tile sizes from second code
-let tileSizesW = [103, 206, 412];
-let tileSizesH = [61, 183];
+// Tile sizes as percentages of canvas dimensions
+let tileSizesW = [0.125, 0.25]; // 12.5% and 25% of width
+let tileSizesH = [0.111, 0.333]; // 11.1% and 33.3% of height
 let currentSizeW;
 let currentSizeH;
 
@@ -29,9 +29,9 @@ function setup() {
   canvasWidth = w;
   canvasHeight = h;
   
-  // Pick initial tile sizes
-  currentSizeW = random(tileSizesW);
-  currentSizeH = random(tileSizesH);
+  // Calculate tile sizes as percentages of canvas
+  currentSizeW = random(tileSizesW) * canvasWidth;
+  currentSizeH = random(tileSizesH) * canvasHeight;
   
   generateCells();
 }
@@ -63,8 +63,8 @@ function draw() {
 
 function mousePressed() {
   // Regenerate grid with new tile size
-  currentSizeW = random(tileSizesW);
-  currentSizeH = random(tileSizesH);
+  currentSizeW = random(tileSizesW) * canvasWidth;
+  currentSizeH = random(tileSizesH) * canvasHeight;
   generateCells();
 }
 
@@ -76,6 +76,10 @@ function windowResized() {
   
   canvasWidth = w;
   canvasHeight = h;
+  
+  // Recalculate tile sizes for new canvas dimensions
+  currentSizeW = random(tileSizesW) * canvasWidth;
+  currentSizeH = random(tileSizesH) * canvasHeight;
   
   generateCells();
 }
@@ -90,9 +94,9 @@ class Cell {
     // Randomly choose a color
     this.color = random(myColors);
     
-    // Timer for random color changes
+    // Timer for random color changes - slowed down for homepage
     this.frameCounter = 0;
-    this.changeInterval = int(random(180, 300));
+    this.changeInterval = int(random(180, 600));
   }
   
   update() {
@@ -103,7 +107,7 @@ class Cell {
       this.color = random(myColors);
       
       this.frameCounter = 0;
-      this.changeInterval = int(random(60, 300));
+      this.changeInterval = int(random(180, 600));
     }
   }
   
