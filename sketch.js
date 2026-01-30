@@ -7,13 +7,14 @@ let color2 = [12, 11, 20]; /*BLACK*/
 let color3 = [246, 243, 235]; /*WHITE*/
 let myColors = [color1, color2, color3];
 
-// Tile sizes as percentages of canvas dimensions
-let tileSizesW = [0.125, 0.25]; // 12.5% and 25% of width
-let tileSizesH = [0.125, 0.25]; // 12.5% and 25% of height
 let currentSizeW;
 let currentSizeH;
 
 let img;
+
+// Grid regeneration timer
+let gridFrameCounter = 0;
+let gridChangeInterval = 1200; // 20 seconds at 60fps
 
 function preload() {
   img = loadImage('https://freight.cargo.site/w/1684/q/75/i/N2771079264186014987794753204707/bananaLeaf_842x549x2.jpg');
@@ -31,13 +32,12 @@ function setup() {
   canvasHeight = h;
   
   // Calculate tile sizes that divide evenly
-  let tileOption = random() < 0.5 ? 4 : 8; // Either 4 or 8 tiles
+  let tileOption = random() < 0.5 ? 4 : 8;
   currentSizeW = Math.round(canvasWidth / tileOption);
   currentSizeH = Math.round(canvasHeight / tileOption);
   
   generateCells();
 }
-
 
 function generateCells() {
   cells = [];
@@ -62,13 +62,27 @@ function draw() {
   }
   
   blendMode(BLEND);
+  
+  // Check if it's time to regenerate grid
+  gridFrameCounter++;
+  if (gridFrameCounter >= gridChangeInterval) {
+    regenerateGrid();
+    gridFrameCounter = 0;
+    gridChangeInterval = int(random(1200, 1800)); // 20-30 seconds
+  }
 }
 
-function mousePressed() {
+function regenerateGrid() {
   let tileOption = random() < 0.5 ? 4 : 8;
   currentSizeW = Math.round(canvasWidth / tileOption);
   currentSizeH = Math.round(canvasHeight / tileOption);
   generateCells();
+}
+
+function mousePressed() {
+  // Still allow manual regeneration on click
+  regenerateGrid();
+  gridFrameCounter = 0; // Reset timer
 }
 
 function windowResized() {
@@ -97,7 +111,7 @@ class Cell {
     // Randomly choose a color
     this.color = random(myColors);
     
-    // Timer for random color changes - slowed down for homepage
+    // Timer for random color changes
     this.frameCounter = 0;
     this.changeInterval = int(random(180, 600));
   }
