@@ -21,28 +21,23 @@ function preload() {
 
 function setup() {
   let w = windowWidth;
-  //let h = w * (2/3);
-  let h = w * 0.613;
+  let h = w * (322/525);
   
   createCanvas(w, h);
   noStroke();
-  noSmooth(); // Add this line - disables anti-aliasing
-
+  noSmooth();
   
   canvasWidth = w;
   canvasHeight = h;
   
-  // Calculate tile sizes as percentages of canvas
-  //currentSizeW = random(tileSizesW) * canvasWidth;
-  //currentSizeH = random(tileSizesH) * canvasHeight;
-  
-  
-  // In setup, mousePressed, and windowResized:
-currentSizeW = Math.round(random(tileSizesW) * canvasWidth);
-currentSizeH = Math.round(random(tileSizesH) * canvasHeight);
+  // Calculate tile sizes that divide evenly
+  let tileOption = random() < 0.5 ? 4 : 8; // Either 4 or 8 tiles
+  currentSizeW = Math.round(canvasWidth / tileOption);
+  currentSizeH = Math.round(canvasHeight / tileOption);
   
   generateCells();
 }
+
 
 function generateCells() {
   cells = [];
@@ -70,25 +65,24 @@ function draw() {
 }
 
 function mousePressed() {
-  // Regenerate grid with new tile size
-  currentSizeW = random(tileSizesW) * canvasWidth;
-  currentSizeH = random(tileSizesH) * canvasHeight;
+  let tileOption = random() < 0.5 ? 4 : 8;
+  currentSizeW = Math.round(canvasWidth / tileOption);
+  currentSizeH = Math.round(canvasHeight / tileOption);
   generateCells();
 }
 
 function windowResized() {
   let w = windowWidth;
- // let h = w * (2/3);
-  let h = w * 0.613;
+  let h = w * (322/525);
   
   resizeCanvas(w, h);
   
   canvasWidth = w;
   canvasHeight = h;
   
-  // Recalculate tile sizes for new canvas dimensions
-  currentSizeW = random(tileSizesW) * canvasWidth;
-  currentSizeH = random(tileSizesH) * canvasHeight;
+  let tileOption = random() < 0.5 ? 4 : 8;
+  currentSizeW = Math.round(canvasWidth / tileOption);
+  currentSizeH = Math.round(canvasHeight / tileOption);
   
   generateCells();
 }
