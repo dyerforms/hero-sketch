@@ -9,7 +9,7 @@ let myColors = [color1, color2, color3];
 
 // Tile sizes as percentages of canvas dimensions
 let tileSizesW = [0.125, 0.25]; // 12.5% and 25% of width
-let tileSizesH = [0.111, 0.333]; // 11.1% and 33.3% of height
+let tileSizesH = [0.125, 0.25]; // 12.5% and 25% of height
 let currentSizeW;
 let currentSizeH;
 
@@ -25,13 +25,20 @@ function setup() {
   
   createCanvas(w, h);
   noStroke();
+  noSmooth(); // Add this line - disables anti-aliasing
+
   
   canvasWidth = w;
   canvasHeight = h;
   
   // Calculate tile sizes as percentages of canvas
-  currentSizeW = random(tileSizesW) * canvasWidth;
-  currentSizeH = random(tileSizesH) * canvasHeight;
+  //currentSizeW = random(tileSizesW) * canvasWidth;
+  //currentSizeH = random(tileSizesH) * canvasHeight;
+  
+  
+  // In setup, mousePressed, and windowResized:
+currentSizeW = Math.round(random(tileSizesW) * canvasWidth);
+currentSizeH = Math.round(random(tileSizesH) * canvasHeight);
   
   generateCells();
 }
